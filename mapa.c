@@ -3,16 +3,17 @@
 #include "fogefoge.h"
 #include "mapa.h"
 
-void encontramapa(MAPA* m, POSICAO* p, char c){
+int encontramapa(MAPA* m, POSICAO* p, char c){
     for (int i=0;i < m->linhas; i++){
     for (int j=0; j < m->colunas; j++){
         if (m->matriz[i][j] == c){
             p->x = i;
             p->y = j;
-            break;
+            return 1;
             }
         }
     }
+    return 0;
 }
 
 void liberamapa(MAPA* m){
@@ -84,5 +85,5 @@ void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino){
 }
 
 int podeandar(MAPA* m, int x, int y){
-    return ehvalida(m, x, y) && ehvazia(m, x, y);
+    return ehvalida(m, x, y) && ehvazia(m, x, y) || m->matriz[x][y] == HEROI ;
 }
