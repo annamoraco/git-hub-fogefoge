@@ -6,13 +6,20 @@
 MAPA m;
 POSICAO heroi;
 
+int ehdirecao(char direcao){
+    return direcao == ESQUERDA || 
+    direcao == BAIXO || 
+    direcao == DIREITA || 
+    direcao == CIMA ;
+}
+
 int acabou(){
     return 0;
 }
 
 void move(char direcao){
 
-    if (direcao != 'a' && direcao != 'z' && direcao != 'd' && direcao != 'w' ){
+    if (!ehdirecao(direcao)){
         return;
     }
 
@@ -21,42 +28,38 @@ void move(char direcao){
 
     switch(direcao){
 
-        case 'a':
+        case ESQUERDA:
             proximoy--;
             break;
         
-        case 'w':
+        case CIMA:
             proximox--;
             break;
 
-        case 'd':
+        case DIREITA:
             proximoy++;
             break;
 
-        case 'z':
+        case BAIXO:
             proximox++;
             break;
     }
 
-    if (proximox >= m.linhas)
-    return;
+    if(!ehvalida(&m, proximox, proximoy))
+        return;
 
-    if (proximoy >= m.colunas)
-    return;
+    if (!ehvazia(&m,proximox, proximoy))
+        return;
 
-    if (m.matriz[proximox][proximoy] != '.')
-    return;
+    andanomapa(&m, heroi.x, heroi.y, proximox, proximoy);
 
-    m.matriz[proximox][proximoy] = '@';
-    m.matriz[heroi.x][heroi.y] = '.';
-    heroi.x = proximox;
-    heroi.y = proximoy;
+    atualizaposicaonomapa(&heroi, proximox, proximoy);
 }
 
 int main(){
 
     lemapa(&m);
-    encontramapa(&m, &heroi,'@');
+    encontramapa(&m, &heroi,HEROI);
 
     do {
         
