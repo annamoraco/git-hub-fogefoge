@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "fogefoge.h"
 
-char** mapa;
-int linhas;
-int colunas;
+struct mapa m;
 
 void liberamapa(){
 
-    for (int i=0; i<linhas; i++){
-    free(mapa[i]);
+    for (int i=0; i<m.linhas; i++){
+    free(m.matriz[i]);
     }
-    free(mapa);
+    free(m.matriz);
 }
 
 void alocamapa(){
-        mapa = malloc(sizeof(char*) * linhas);
-    for (int i = 0; i < linhas; i++){
-        mapa[i] = malloc(sizeof(char*) * ( colunas + 1 ));
+        m.matriz = malloc(sizeof(char*) * m.linhas);
+    for (int i = 0; i < m.linhas; i++){
+        m.matriz[i] = malloc(sizeof(char*) * ( m.colunas + 1 ));
     }
 }
 
@@ -28,21 +27,21 @@ void lemapa(){
         exit(1);
     }
 
-    fscanf(f, "%d %d", &linhas, &colunas);
+    fscanf(f, "%d %d", &(m.linhas), &(m.colunas));
 
     alocamapa();
 
     for (int i = 0; i < 5; i++)
     {
-        fscanf(f,"%s", mapa[i]);
+        fscanf(f,"%s", m.matriz[i]);
     }
 
     fclose(f);
 }
 
 void imprimemapa(){
-    for (int i = 0; i < linhas; i++){
-    printf("%s\n",mapa[i]);
+    for (int i = 0; i < m.linhas; i++){
+    printf("%s\n",m.matriz[i]);
     }
 }
 
@@ -54,9 +53,9 @@ void move(char direcao){
     int x;
     int y;
 
-    for (int i=0;i < linhas; i++){
-        for (int j=0; j < colunas; j++){
-            if (mapa[i][j] == '@'){
+    for (int i=0;i < m.linhas; i++){
+        for (int j=0; j < m.colunas; j++){
+            if (m.matriz[i][j] == '@'){
                 x = i;
                 y = j;
                 break;
@@ -67,23 +66,23 @@ void move(char direcao){
     switch(direcao){
 
         case 'a':
-            mapa[x][y-1] = '@';
+            m.matriz[x][y-1] = '@';
             break;
         
         case 'w':
-            mapa[x-1][y] = '@';
+            m.matriz[x-1][y] = '@';
             break;
 
         case 'd':
-            mapa[x][y+1] = '@';
+            m.matriz[x][y+1] = '@';
             break;
 
         case 'z':
-            mapa[x+1][y] = '@';
+            m.matriz[x+1][y] = '@';
             break;
     }
 
-    mapa[x][y] = '.';
+    m.matriz[x][y] = '.';
 }
 
 int main(){
@@ -97,7 +96,7 @@ int main(){
         scanf(" %c", &comando);
         move(comando);
 
-    } while (!(acabou()));
+    } while (!acabou());
     liberamapa();
 
 }
