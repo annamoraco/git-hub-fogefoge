@@ -3,6 +3,18 @@
 #include "fogefoge.h"
 #include "mapa.h"
 
+void encontramapa(MAPA* m, POSICAO* p, char c){
+    for (int i=0;i < m->linhas; i++){
+    for (int j=0; j < m->colunas; j++){
+        if (m->matriz[i][j] == c){
+            p->x = i;
+            p->y = j;
+            break;
+            }
+        }
+    }
+}
+
 void liberamapa(MAPA* m){
 
     for (int i=0; i<m->linhas; i++){
