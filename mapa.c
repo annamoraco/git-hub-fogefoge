@@ -82,3 +82,7 @@ void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino){
     heroi->x = xdestino; 
     heroi->y = ydestino;
 }
+
+int podeandar(MAPA* m, int x, int y){
+    return ehvalida(m, x, y) && ehvazia(m, x, y);
+}

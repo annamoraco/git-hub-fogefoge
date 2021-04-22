@@ -1,18 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "fogefoge.h"
 #include "mapa.h"
 
 MAPA m;
 POSICAO heroi;
 
+
+int posicaofantasma(int xorigem, int yorigem, int* xdestino, int* ydestino) {
+
+    int opcoes[4][2] = { 
+        { xorigem   , yorigem+1 }, 
+        { xorigem+1 , yorigem   },  
+        { xorigem   , yorigem-1 }, 
+        { xorigem-1 , yorigem   }
+    };
+    
+    srand(time(0));
+    for (int i=0; i<10; i++){
+        int posicao = rand() % 4;
+        if (podeandar(&m, opcoes[posicao][0], opcoes[posicao][1])){
+            *xdestino = opcoes[posicao][0];
+            *ydestino = opcoes[posicao][1];
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void fantasmas() {
     for(int i = 0; i < m.linhas; i++) {
         for(int j = 0; j < m.colunas; j++) {
 
             if(m.matriz[i][j] == FANTASMA) {
-                if(ehvalida(&m, i, j+1) && ehvazia(&m, i, j+1)) {
-                    andanomapa(&m, i, j, i, j+1);
+                int xdestino;
+                int ydestino;
+                int encontrou = posicaofantasma(i, j, &xdestino, &ydestino);
+                if(encontrou) {
+                    andanomapa(&m, i, j, xdestino, ydestino);
                     j++;
                 }
             }
@@ -60,10 +86,7 @@ void move(char direcao){
             break;
     }
 
-    if(!ehvalida(&m, proximox, proximoy))
-        return;
-
-    if (!ehvazia(&m,proximox, proximoy))
+    if(!podeandar(&m, proximox, proximoy))
         return;
 
     andanomapa(&m, heroi.x, heroi.y, proximox, proximoy);

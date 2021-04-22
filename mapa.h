@@ -27,3 +27,4 @@ int ehvalida(MAPA* m, int x, int y);
 int ehvazia(MAPA* m, int x, int y);
 void andanomapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
 void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino);
+int podeandar(MAPA* m, int x, int y);
