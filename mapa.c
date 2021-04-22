@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fogefoge.h"
 #include "mapa.h"
 
@@ -43,7 +44,7 @@ void lemapa(MAPA* m){
 
     alocamapa(m);
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < m->linhas; i++)
     {
         fscanf(f,"%s", m->matriz[i]);
     }
@@ -86,4 +87,13 @@ void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino){
 
 int podeandar(MAPA* m, int x, int y){
     return ehvalida(m, x, y) && ehvazia(m, x, y) || m->matriz[x][y] == HEROI ;
+}
+
+void copiamapa(MAPA* destino, MAPA* origem) {
+    destino->linhas = origem->linhas;
+    destino->colunas = origem->colunas;
+    alocamapa(destino);
+    for(int i = 0; i < origem->linhas; i++) {
+        strcpy(destino->matriz[i], origem->matriz[i]);
+    }
 }

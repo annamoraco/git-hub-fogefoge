@@ -7,7 +7,6 @@
 MAPA m;
 POSICAO heroi;
 
-
 int posicaofantasma(int xorigem, int yorigem, int* xdestino, int* ydestino) {
 
     int opcoes[4][2] = { 
@@ -30,10 +29,15 @@ int posicaofantasma(int xorigem, int yorigem, int* xdestino, int* ydestino) {
 }
 
 void fantasmas() {
+    
+    MAPA copia;
+
+    copiamapa(&copia, &m);
+
     for(int i = 0; i < m.linhas; i++) {
         for(int j = 0; j < m.colunas; j++) {
 
-            if(m.matriz[i][j] == FANTASMA) {
+            if(copia.matriz[i][j] == FANTASMA) {
                 int xdestino;
                 int ydestino;
                 int encontrou = posicaofantasma(i, j, &xdestino, &ydestino);
@@ -109,6 +113,7 @@ int main(){
         fantasmas();
 
     } while (!acabou());
+
     liberamapa(&m);
 
 }
