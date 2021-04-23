@@ -103,11 +103,25 @@ void move(char direcao){
     atualizaposicaonomapa(&heroi, proximox, proximoy);
 }
 
+void explodepilula(int x, int y, int qtd) {
+    printf("\nExplode a bomba\n");
+
+    if (qtd == 0) return;
+    if (!ehvalida(&m,x,y+1)) return;
+    if (ehparede(&m,x,y+1)) return;
+    
+    m.matriz[x][y+1] = VAZIO;
+    explodepilula(x, y+1, qtd-1);
+
+    tempilula = 0;
+}
+
 int main(){
 
     lemapa(&m);
     encontramapa(&m, &heroi, HEROI);
     colocapilula(&m);
+    POSICAO p;
 
     do {
         printf("\nTem pilula: %s", ( tempilula ? "SIM\n\n" : "NAO\n\n"));
@@ -115,13 +129,18 @@ int main(){
         char comando;
         scanf(" %c", &comando);
         move(comando);
-        fantasmas();
+        if ( tempilula && comando == BOMBA) {
+            explodepilula(heroi.x, heroi.y, 3);
+            colocapilula(&m);
+        }
 
-    } while (!acabou());
+        fantasmas();
+        
+    } while (!acabou() && encontramapa(&m, &p, FANTASMA));
 
     liberamapa(&m);
 
-    if(acabou())
-    printf("\nVoce perdeu!\n");
+    if(acabou()) printf("\nVoce perdeu.\n");
+    else printf("\nVoce ganhou!!!\n");
 
 }

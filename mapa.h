@@ -32,3 +32,4 @@ int podeandar(MAPA* m, int x, int y);
 void copiamapa(MAPA* destino, MAPA* origem);
 int ehpersonagem(MAPA* m, char PERSONAGEM, int x, int y);
 void colocapilula(MAPA* m);
+int ehparede(MAPA* m, int x, int y);

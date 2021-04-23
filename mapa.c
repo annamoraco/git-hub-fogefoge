@@ -118,3 +118,7 @@ void colocapilula(MAPA* m){
     m->matriz[x][y] = PILULA;
 
 }
+
+int ehparede(MAPA* m, int x, int y){
+    return m->matriz[x][y] == PAREDE_H || m->matriz[x][y] == PAREDE_V ;
+}
