@@ -6,6 +6,7 @@
 
 MAPA m;
 POSICAO heroi;
+int tempilula = 0;
 
 int posicaofantasma(int xorigem, int yorigem, int* xdestino, int* ydestino) {
 
@@ -19,7 +20,7 @@ int posicaofantasma(int xorigem, int yorigem, int* xdestino, int* ydestino) {
     srand(time(0));
     for (int i=0; i<10; i++){
         int posicao = rand() % 4;
-        if (podeandar(&m, opcoes[posicao][0], opcoes[posicao][1])){
+        if (podeandar(&m, opcoes[posicao][0], opcoes[posicao][1]) || ehpersonagem(&m,HEROI,opcoes[posicao][0], opcoes[posicao][1]) ){
             *xdestino = opcoes[posicao][0];
             *ydestino = opcoes[posicao][1];
             return 1;
@@ -91,8 +92,11 @@ void move(char direcao){
             break;
     }
 
-    if(!podeandar(&m, proximox, proximoy))
-        return;
+    if(!podeandar(&m, proximox, proximoy) && !ehpersonagem(&m,PILULA,proximox, proximoy) )
+        return;\
+
+    if(ehpersonagem(&m, PILULA, proximox, proximoy))
+        tempilula = 1;
 
     andanomapa(&m, heroi.x, heroi.y, proximox, proximoy);
 
@@ -103,9 +107,10 @@ int main(){
 
     lemapa(&m);
     encontramapa(&m, &heroi, HEROI);
+    colocapilula(&m);
 
     do {
-        
+        printf("\nTem pilula: %s", ( tempilula ? "SIM\n\n" : "NAO\n\n"));
         imprimemapa(&m);
         char comando;
         scanf(" %c", &comando);
@@ -115,5 +120,8 @@ int main(){
     } while (!acabou());
 
     liberamapa(&m);
+
+    if(acabou())
+    printf("\nVoce perdeu!\n");
 
 }

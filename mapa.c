@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "fogefoge.h"
 #include "mapa.h"
 
@@ -86,7 +87,7 @@ void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino){
 }
 
 int podeandar(MAPA* m, int x, int y){
-    return ehvalida(m, x, y) && ehvazia(m, x, y) || m->matriz[x][y] == HEROI ;
+    return ehvalida(m, x, y) && ehvazia(m, x, y)  ;
 }
 
 void copiamapa(MAPA* destino, MAPA* origem) {
@@ -96,4 +97,24 @@ void copiamapa(MAPA* destino, MAPA* origem) {
     for(int i = 0; i < origem->linhas; i++) {
         strcpy(destino->matriz[i], origem->matriz[i]);
     }
+}
+
+int ehpersonagem(MAPA* m, char PERSONAGEM, int x, int y){
+    return m->matriz[x][y] == PERSONAGEM ;
+}
+
+void colocapilula(MAPA* m){
+    
+    srand(time(0));
+    int x = 0;
+    int y = 0;
+
+    do {
+        x = rand() % m->linhas;
+        y = rand() % m->colunas;
+
+    } while (!podeandar(m, x, y));
+
+    m->matriz[x][y] = PILULA;
+
 }

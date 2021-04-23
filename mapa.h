@@ -3,6 +3,7 @@
 #define PAREDE_H '-'
 #define HEROI '@'
 #define FANTASMA 'F'
+#define PILULA 'P'
 
 struct mapa {
     char** matriz;
@@ -29,3 +30,5 @@ void andanomapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
 void atualizaposicaonomapa(POSICAO* heroi, int xdestino, int ydestino);
 int podeandar(MAPA* m, int x, int y);
 void copiamapa(MAPA* destino, MAPA* origem);
+int ehpersonagem(MAPA* m, char PERSONAGEM, int x, int y);
+void colocapilula(MAPA* m);
